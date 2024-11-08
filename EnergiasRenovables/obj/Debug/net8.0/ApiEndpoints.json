@@ -1,0 +1,43 @@
+[
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiaSolarController",
+    "Method": "Get",
+    "RelativePath": "api/EnergiaSolar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesControlador",
+    "Method": "ObtenerProduccion",
+    "RelativePath": "api/EnergiasRenovablesControlador",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[EnergiasRenovables.WeatherForecast, EnergiasRenovables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]

@@ -1,0 +1,6 @@
+@EnergiasRenovables_HostAddress = http://localhost:5084
+
+GET {{EnergiasRenovables_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
