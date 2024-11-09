@@ -140,3 +140,4 @@ C:\Users\Jorge\source\repos\EnergiasRenovables\EnergiasRenovables\obj\Debug\net8
 C:\Users\Jorge\source\repos\EnergiasRenovables\EnergiasRenovables\obj\Debug\net8.0\EnergiasRenovables.pdb
 C:\Users\Jorge\source\repos\EnergiasRenovables\EnergiasRenovables\obj\Debug\net8.0\EnergiasRenovables.genruntimeconfig.cache
 C:\Users\Jorge\source\repos\EnergiasRenovables\EnergiasRenovables\obj\Debug\net8.0\ref\EnergiasRenovables.dll
+C:\Users\Jorge\source\repos\EnergiasRenovables\EnergiasRenovables\obj\Debug\net8.0\EnergiasRenovables.sourcelink.json

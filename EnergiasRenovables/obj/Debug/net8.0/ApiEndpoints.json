@@ -10,13 +10,19 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesControlador",
-    "Method": "ObtenerProduccion",
-    "RelativePath": "api/EnergiasRenovablesControlador",
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesController",
+    "Method": "ResultadoCalculo",
+    "RelativePath": "api/EnergiasRenovables",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "tipoEnergia",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

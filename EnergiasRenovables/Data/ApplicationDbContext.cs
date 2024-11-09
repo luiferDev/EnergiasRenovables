@@ -5,6 +5,14 @@ namespace EnergiasRenovables.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Server=localhost;Database=EnergiasRenovables;Trusted_Connection=True;");
+            }
+        }
+
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
         public virtual DbSet<EnergiaSolar> EnergiaSolars { get; set; }

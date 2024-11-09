@@ -8,35 +8,16 @@ namespace EnergiasRenovables.Model.Strategy.Context
 
         private ICalculoStrategy _strategy;
 
-        public enum TipoEnergia {
-            Solar,
-            Eolica,
-            Geotermica,
-            Hidroelectrica,
-            Biomasa
-        }
-
-        public EnegiaRenovableContext()
+        public void SetStrategy(ICalculoStrategy strategy)
         {
             // estrategia por defecto
-            this._strategy = new EnergiaSolarConcrete();
+            this._strategy = strategy;
         }
 
-        public decimal CalcularProduccion(TipoEnergia option)
+        public decimal CalcularEnergia()
         {
-            switch (option)
-            {
-                case TipoEnergia.Solar:
-                    this._strategy = new EnergiaSolarConcrete();
-                    break;
-                case TipoEnergia.Eolica:
-                    this._strategy = new EnergiaEolicaConcrete();
-                    break;             
-            }
-
-           return this._strategy.CalcularProduccion();
+            return _strategy.CalcularProduccion();
         }
-
 
     }
 }

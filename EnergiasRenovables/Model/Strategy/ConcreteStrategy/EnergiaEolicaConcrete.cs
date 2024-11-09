@@ -1,17 +1,26 @@
-﻿namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
+﻿using EnergiasRenovables.Data;
+
+namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
 {
     public class EnergiaEolicaConcrete : ICalculoStrategy
     {
+        private readonly ApplicationDbContext _context;
 
-        public EnergiaEolicaConcrete() { }
-
+        public EnergiaEolicaConcrete(ApplicationDbContext context)
+        {
+            this._context = context;
+        }
         public decimal CalcularProduccion()
         {
-            decimal radiacion = 450.2M;
-            decimal eficiencia = 0.9M;
-            decimal area = 120.70M;
-            decimal angulo = 49.23M;
-            return area * angulo * eficiencia * radiacion;
+            var resultados = from e in _context.EnergiaEolicas
+                             select new
+                             {
+                               e.Id,
+                               e.DiametroTurbina,
+                               e.AlturaTurbinas,
+                               TotalCalculo =  e.DiametroTurbina * e.AlturaTurbinas * 1000
+                             };
+            return resultados.Sum(x => x.TotalCalculo);
         }
     }
 }
