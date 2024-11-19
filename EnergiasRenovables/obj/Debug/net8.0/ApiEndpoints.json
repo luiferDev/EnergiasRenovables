@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "EnergiasRenovables.Controllers.EnergiaSolarController",
-    "Method": "Get",
+    "Method": "ObtenerEnergiaSolarCompleta",
     "RelativePath": "api/EnergiaSolar",
     "HttpMethod": "GET",
     "IsController": true,
@@ -10,8 +10,40 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiaSolarController",
+    "Method": "AgregarEntidad",
+    "RelativePath": "api/EnergiaSolar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "entidadDto",
+        "Type": "EnergiasRenovables.Model.DTO.InsertarEnergiaSolarDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiaSolarController",
+    "Method": "ObtenerEnergiaSolar",
+    "RelativePath": "api/EnergiaSolar/ObtenerEnergiaSolar/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesController",
-    "Method": "ResultadoCalculo",
+    "Method": "ObtenerEnergiaRenovable",
     "RelativePath": "api/EnergiasRenovables",
     "HttpMethod": "GET",
     "IsController": true,
@@ -21,6 +53,74 @@
         "Name": "tipoEnergia",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesController",
+    "Method": "ActualizarEnergiaRenovable",
+    "RelativePath": "api/EnergiasRenovables/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEnergia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "insertarEnergia",
+        "Type": "EnergiasRenovables.Model.DTO.InsertarEnergiaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesController",
+    "Method": "CrearEnergiaRenovable",
+    "RelativePath": "api/EnergiasRenovables/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEnergia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "insertarEnergia",
+        "Type": "EnergiasRenovables.Model.DTO.InsertarEnergiaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EnergiasRenovables.Controllers.EnergiasRenovablesController",
+    "Method": "EliminarEnergiaRenovable",
+    "RelativePath": "api/EnergiasRenovables/eliminar{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipoEnergia",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

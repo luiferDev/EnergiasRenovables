@@ -1,0 +1,415 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EnergiasRenovables",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/EnergiaSolar": {
+      "get": {
+        "tags": [
+          "EnergiaSolar"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "EnergiaSolar"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaSolarDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaSolarDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaSolarDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EnergiaSolar/ObtenerEnergiaSolar/{id}": {
+      "delete": {
+        "tags": [
+          "EnergiaSolar"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EnergiasRenovables": {
+      "get": {
+        "tags": [
+          "EnergiasRenovables"
+        ],
+        "parameters": [
+          {
+            "name": "tipoEnergia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EnergiasRenovables/crear": {
+      "post": {
+        "tags": [
+          "EnergiasRenovables"
+        ],
+        "parameters": [
+          {
+            "name": "tipoEnergia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EnergiasRenovables/actualizar": {
+      "put": {
+        "tags": [
+          "EnergiasRenovables"
+        ],
+        "parameters": [
+          {
+            "name": "tipoEnergia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsertarEnergiaDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EnergiasRenovables/eliminar{id}": {
+      "delete": {
+        "tags": [
+          "EnergiasRenovables"
+        ],
+        "parameters": [
+          {
+            "name": "tipoEnergia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AgregarEnergiaRenovableSolarDTO": {
+        "required": [
+          "nombre"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgregarEnergiaSolarDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "radiacionSolar": {
+            "type": "number",
+            "format": "double"
+          },
+          "areaPaneles": {
+            "type": "number",
+            "format": "double"
+          },
+          "anguloInclinacion": {
+            "type": "number",
+            "format": "double"
+          },
+          "eficienciaPaneles": {
+            "type": "number",
+            "format": "double"
+          },
+          "produccionEnergetica": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgregarPaisDTO": {
+        "required": [
+          "nombre"
+        ],
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "energiaRequerida": {
+            "type": "number",
+            "format": "double"
+          },
+          "nivelCovertura": {
+            "type": "number",
+            "format": "double"
+          },
+          "poblacion": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AgregarPlantaProduccionDTO": {
+        "required": [
+          "ubicacion"
+        ],
+        "type": "object",
+        "properties": {
+          "ubicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacidadInstalada": {
+            "type": "number",
+            "format": "double"
+          },
+          "eficiencia": {
+            "type": "number",
+            "format": "double"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsertarEnergiaDTO": {
+        "required": [
+          "energiaEolica",
+          "energiaSolar"
+        ],
+        "type": "object",
+        "properties": {
+          "energiaSolar": {
+            "$ref": "#/components/schemas/InsertarEnergiaSolarDTO"
+          },
+          "energiaEolica": {
+            "$ref": "#/components/schemas/InsertarEnergiaEolicaDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InsertarEnergiaEolicaDTO": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "InsertarEnergiaSolarDTO": {
+        "required": [
+          "energiaRenovable",
+          "energiaSolar",
+          "pais",
+          "plantaProduccion"
+        ],
+        "type": "object",
+        "properties": {
+          "energiaSolar": {
+            "$ref": "#/components/schemas/AgregarEnergiaSolarDTO"
+          },
+          "energiaRenovable": {
+            "$ref": "#/components/schemas/AgregarEnergiaRenovableSolarDTO"
+          },
+          "plantaProduccion": {
+            "$ref": "#/components/schemas/AgregarPlantaProduccionDTO"
+          },
+          "pais": {
+            "$ref": "#/components/schemas/AgregarPaisDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

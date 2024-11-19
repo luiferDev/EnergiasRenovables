@@ -1,29 +1,24 @@
-﻿using EnergiasRenovables.Model.Entities;
+﻿using EnergiasRenovables.Model.DTO;
+using EnergiasRenovables.Model.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace EnergiasRenovables.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=localhost;Database=EnergiasRenovables;Trusted_Connection=True;");
-            }
-        }
-
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        public virtual DbSet<EnergiaSolar> EnergiaSolars { get; set; }
-        public virtual DbSet<EnergiaRenovable> EnergiasRenovables { get; set; }
-        public virtual DbSet<PlantaProduccion> PlantaProduccions { get; set; }
-        public virtual DbSet<TipoEnergia> TipoEnergias { get; set; }
-        public virtual DbSet<Biomasa> Biomasa { get; set; }
-        public virtual DbSet<EnergiaHidroelectrica> EnergiaHidroelectricas { get; set; }
-        public virtual DbSet<EnergiaGeotermica> EnergiaGeotermicas { get; set; }
-        public virtual DbSet<EnergiaEolica> EnergiaEolicas { get; set; }
-        public virtual DbSet<Pais> Paises { get; set; }
+        public required DbSet<EnergiaSolar> EnergiaSolars { get; set; }
+        public required DbSet<EnergiaRenovable> EnergiasRenovables { get; set; }
+        public required DbSet<PlantaProduccion> PlantaProduccions { get; set; }
+        public required DbSet<TipoEnergia> TipoEnergias { get; set; }
+        public required DbSet<Biomasa> Biomasa { get; set; }
+        public required DbSet<EnergiaHidroelectrica> EnergiaHidroelectricas { get; set; }
+        public required DbSet<EnergiaGeotermica> EnergiaGeotermicas { get; set; }
+        public required DbSet<EnergiaEolica> EnergiaEolicas { get; set; }
+        public required DbSet<Pais> Paises { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
