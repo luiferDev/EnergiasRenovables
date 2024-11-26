@@ -1,13 +1,9 @@
 ﻿namespace EnergiasRenovables.Model.Strategy.Context
 {
-    public class EnergiaRenovableContext<T, U>
+    public class EnergiaRenovableContext<T, U>(ICalculoStrategy<T, U> strategy)
     {
-        private readonly ICalculoStrategy<T, U> _strategy;
-
-        public EnergiaRenovableContext(ICalculoStrategy<T, U> strategy)
-        {
-            _strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
-        }
+        private readonly ICalculoStrategy<T, U> _strategy = 
+            strategy ?? throw new ArgumentNullException(nameof(strategy));
 
         public decimal CalcularEnergia()
         {

@@ -8,15 +8,9 @@ namespace EnergiasRenovables.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EnergiasRenovablesController : ControllerBase
+    public class EnergiasRenovablesController(ApplicationDbContext dbContext) : ControllerBase
     {
-        private readonly ApplicationDbContext dbContext;
-
-        public EnergiasRenovablesController
-            (ApplicationDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        private readonly ApplicationDbContext _dbContext = dbContext;
 
         [HttpGet]
         public IActionResult ObtenerEnergiaRenovable([FromQuery] string tipoEnergia)
@@ -156,7 +150,7 @@ namespace EnergiasRenovables.Controllers
             }
         }
 
-        [HttpDelete("eliminar{id}")]
+        [HttpDelete("eliminar")]
         public async Task<IActionResult> EliminarEnergiaRenovable(
             [FromQuery] string tipoEnergia, int id)
         {

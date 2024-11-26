@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace EnergiasRenovables.Migrations
 {
     /// <inheritdoc />
-    public partial class sinfecha : Migration
+    public partial class postgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +16,13 @@ namespace EnergiasRenovables.Migrations
                 name: "Paises",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EnergiaRequerida = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NivelCovertura = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Poblacion = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PlantaProduccionId = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    EnergiaRequerida = table.Column<decimal>(type: "numeric", nullable: false),
+                    NivelCovertura = table.Column<decimal>(type: "numeric", nullable: false),
+                    Poblacion = table.Column<decimal>(type: "numeric", nullable: false),
+                    PlantaProduccionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,9 +33,9 @@ namespace EnergiasRenovables.Migrations
                 name: "TipoEnergias",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,10 +46,10 @@ namespace EnergiasRenovables.Migrations
                 name: "PlantaProduccions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Ubicacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CapacidadInstalada = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Eficiencia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Ubicacion = table.Column<string>(type: "text", nullable: false),
+                    CapacidadInstalada = table.Column<decimal>(type: "numeric", nullable: false),
+                    Eficiencia = table.Column<decimal>(type: "numeric", nullable: false),
                     FechaCreacion = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -66,9 +67,9 @@ namespace EnergiasRenovables.Migrations
                 name: "EnergiasRenovables",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoEnergiaId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    TipoEnergiaId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,11 +92,11 @@ namespace EnergiasRenovables.Migrations
                 name: "Biomasa",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Origen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cantidad = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ContenidoEnergetico = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MetodoConversion = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Origen = table.Column<string>(type: "text", nullable: false),
+                    Cantidad = table.Column<decimal>(type: "numeric", nullable: false),
+                    ContenidoEnergetico = table.Column<decimal>(type: "numeric", nullable: false),
+                    MetodoConversion = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,11 +113,11 @@ namespace EnergiasRenovables.Migrations
                 name: "EnergiaEolicas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    NumeroTurbinas = table.Column<int>(type: "int", nullable: false),
-                    VelocidadViento = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AlturaTurbinas = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiametroTurbina = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    NumeroTurbinas = table.Column<int>(type: "integer", nullable: false),
+                    VelocidadViento = table.Column<decimal>(type: "numeric", nullable: false),
+                    AlturaTurbinas = table.Column<decimal>(type: "numeric", nullable: false),
+                    DiametroTurbina = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,10 +134,10 @@ namespace EnergiasRenovables.Migrations
                 name: "EnergiaGeotermicas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Caudal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NumeroPozos = table.Column<int>(type: "int", nullable: false),
-                    TemperaturaFluidos = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Caudal = table.Column<decimal>(type: "numeric", nullable: false),
+                    NumeroPozos = table.Column<int>(type: "integer", nullable: false),
+                    TemperaturaFluidos = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,10 +154,10 @@ namespace EnergiasRenovables.Migrations
                 name: "EnergiaHidroelectricas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Salto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Caudal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NumeroTurbinas = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Salto = table.Column<decimal>(type: "numeric", nullable: false),
+                    Caudal = table.Column<decimal>(type: "numeric", nullable: false),
+                    NumeroTurbinas = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,11 +174,11 @@ namespace EnergiasRenovables.Migrations
                 name: "EnergiaSolars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    RadiacionSolar = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AreaPaneles = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AnguloInclinacion = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EficienciaPaneles = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    RadiacionSolar = table.Column<decimal>(type: "numeric", nullable: false),
+                    AreaPaneles = table.Column<decimal>(type: "numeric", nullable: false),
+                    AnguloInclinacion = table.Column<decimal>(type: "numeric", nullable: false),
+                    EficienciaPaneles = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,256 +1,172 @@
 ﻿using EnergiasRenovables.Data;
 using EnergiasRenovables.Model.DTO;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
 {
-    public class EnergiaSolarConcrete : ICalculoStrategy<ObtenerEnergiSolarDTO, 
+    public class EnergiaSolarConcrete(ApplicationDbContext context) : ICalculoStrategy<ObtenerEnergiSolarDTO,
         InsertarEnergiaSolarDTO>
     {
-        private readonly ApplicationDbContext _context;
-
-        public EnergiaSolarConcrete(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public List<ObtenerEnergiSolarDTO> ObtenerEnergia()
         {
-            var energiaSolar = from es in _context.EnergiaSolars
-                               join er in _context.EnergiasRenovables on es.Id equals er.Id
-                               join te in _context.TipoEnergias on er.TipoEnergiaId equals te.Id
-                               join pp in _context.PlantaProduccions on es.Id equals pp.Id
-                               join ps in _context.Paises on es.Id equals ps.id
-                               select new ObtenerEnergiSolarDTO
-                               {
-                                   Id = es.Id,
-                                   RadiacionSolar = es.RadiacionSolar,
-                                   AnguloInclinacion = es.AnguloInclinacion,
-                                   EficienciaPaneles = es.EficienciaPaneles,
-                                   AreaPaneles = es.AreaPaneles,
-                                   Codigo = er.Nombre,
-                                   Tipo = te.Nombre,
-                                   Ubicacion = pp.Ubicacion,
-                                   Eficiencia = pp.Eficiencia,
-                                   FechaCreacion = pp.FechaCreacion,
-                                   Pais = ps.Nombre,
-                                   EnergiaRequerida = ps.EnergiaRequerida,
-                                   NivelCovertura = ps.NivelCovertura,
-                                   Poblacion = ps.Poblacion,
-                                   ProduccionAnual = es.RadiacionSolar *
-                                   es.AnguloInclinacion *
-                                   es.EficienciaPaneles *
-                                   es.AreaPaneles
-                               };
+            var energiaSolar = from es in context.EnergiaSolars
+                join er in context.EnergiasRenovables on es.Id equals er.Id
+                join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
+                join pp in context.PlantaProduccions on es.Id equals pp.Id
+                join ps in context.Paises on es.Id equals ps.id
+                select new ObtenerEnergiSolarDTO
+                {
+                    Id = es.Id,
+                    RadiacionSolar = es.RadiacionSolar,
+                    AnguloInclinacion = es.AnguloInclinacion,
+                    EficienciaPaneles = es.EficienciaPaneles,
+                    AreaPaneles = es.AreaPaneles,
+                    Codigo = er.Nombre,
+                    Tipo = te.Nombre,
+                    Ubicacion = pp.Ubicacion,
+                    Eficiencia = pp.Eficiencia,
+                    FechaCreacion = pp.FechaCreacion,
+                    Pais = ps.Nombre,
+                    EnergiaRequerida = ps.EnergiaRequerida,
+                    NivelCovertura = ps.NivelCovertura,
+                    Poblacion = ps.Poblacion,
+                    ProduccionAnual = es.RadiacionSolar *
+                                      es.AnguloInclinacion *
+                                      es.EficienciaPaneles *
+                                      es.AreaPaneles
+                };
 
             return [.. energiaSolar];
         }
 
         public decimal CalcularProduccion()
         {
-            var resultados = from p in _context.EnergiaSolars
-                             select new
-                             {
-                                 p.Id,
-                                 p.AreaPaneles,
-                                 p.RadiacionSolar,
-                                 p.AnguloInclinacion,
-                                 p.EficienciaPaneles,
-                                 TotalCalculo = p.AreaPaneles *
-                                 p.RadiacionSolar *
-                                 p.AnguloInclinacion *
-                                 p.EficienciaPaneles
-                             };
+            var resultados =
+                from p in context.EnergiaSolars
+                select new
+                {
+                    p.Id,
+                    p.AreaPaneles,
+                    p.RadiacionSolar,
+                    p.AnguloInclinacion,
+                    p.EficienciaPaneles,
+                    TotalCalculo = p.AreaPaneles *
+                                   p.RadiacionSolar *
+                                   p.AnguloInclinacion *
+                                   p.EficienciaPaneles
+                };
 
             return resultados.Sum(x => x.TotalCalculo);
         }
 
         // ejecutar procedimiento almacenado asincrono para insertar energia solar en db
+
+
         public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaSolarDTO entidadDto)
+        {
+            if (entidadDto == null)
+                throw new ArgumentNullException(nameof(entidadDto));
+
+            var energiaSolarParams = new[]
+            {
+                new NpgsqlParameter("@RadiacionSolar", Math.Round(entidadDto.EnergiaSolar.RadiacionSolar, 2)),
+                new NpgsqlParameter("@AnguloInclinacion", Math.Round(entidadDto.EnergiaSolar.AnguloInclinacion, 2)),
+                new NpgsqlParameter("@EficienciaPaneles", Math.Round(entidadDto.EnergiaSolar.EficienciaPaneles, 2)),
+                new NpgsqlParameter("@AreaPaneles", Math.Round(entidadDto.EnergiaSolar.AreaPaneles, 2))
+            };
+
+            var energiaRenovableParams = new[]
+            {
+                new NpgsqlParameter("@Nombre", entidadDto.EnergiaRenovable.Nombre)
+            };
+
+            var plantaProduccionParams = new[]
+            {
+                new NpgsqlParameter("@Ubicacion", entidadDto.PlantaProduccion.Ubicacion),
+                new NpgsqlParameter("@Eficacia", Math.Round(entidadDto.PlantaProduccion.Eficiencia, 2)),
+                new NpgsqlParameter("@CapacidadInstalada",
+                    Math.Round(entidadDto.PlantaProduccion.CapacidadInstalada, 2)),
+                new NpgsqlParameter("@FechaCreacion", entidadDto.PlantaProduccion.FechaCreacion)
+            };
+
+            var paisParams = new[]
+            {
+                new NpgsqlParameter("@NombrePais", entidadDto.Pais.Nombre),
+                new NpgsqlParameter("@NivelCovertura", Math.Round(entidadDto.Pais.NivelCovertura, 2)),
+                new NpgsqlParameter("@Poblacion", Math.Round(entidadDto.Pais.Poblacion, 2)),
+                new NpgsqlParameter("@EnergiaRequerida", Math.Round(entidadDto.Pais.EnergiaRequerida, 2))
+            };
+            
+            // Usar SQL parametrizado con nombres consistentes
+            await context.Database.ExecuteSqlRawAsync(
+                "CALL insertar_energia_solar(@RadiacionSolar, @AnguloInclinacion, @EficienciaPaneles, @AreaPaneles, " +
+                "@Nombre, @Ubicacion, @CapacidadInstalada, @Eficacia, @FechaCreacion, " +
+                "@NombrePais, @EnergiaRequerida, @NivelCovertura, @Poblacion)",
+                [.. energiaSolarParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
+        }
+
+
+        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaSolarDTO entidadDto, int id)
         {
             // Parámetros para Energia Solar
             var energiaSolar = new[]
             {
-            new SqlParameter("@radiacionsolar", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.EnergiaSolar.RadiacionSolar,2),
-                Precision = 5,
-                Scale = 2
-            },
-            new SqlParameter("@anguloinclinacion", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.EnergiaSolar.AnguloInclinacion,2),
-                Precision = 5,
-                Scale = 2
-            },
-            new SqlParameter("@eficienciapaneles", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.EnergiaSolar.EficienciaPaneles,2),
-                Precision = 5,
-                Scale = 2
-            },
-            new SqlParameter("@areapaneles", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.EnergiaSolar.AreaPaneles,2),
-                Precision = 5,
-                Scale = 2
-            }
-        };
+                new NpgsqlParameter("idEnergiaSolar", DbType.Int64),
+                new NpgsqlParameter("radiacionsolar",
+                    Math.Round(entidadDto.EnergiaSolar.RadiacionSolar, 2)),
+                new NpgsqlParameter("anguloinclinacion",
+                    Math.Round(entidadDto.EnergiaSolar.AnguloInclinacion, 2)),
+                new NpgsqlParameter("eficienciapaneles",
+                    Math.Round(entidadDto.EnergiaSolar.EficienciaPaneles, 2)),
+                new NpgsqlParameter("areapaneles",
+                    Math.Round(entidadDto.EnergiaSolar.AreaPaneles, 2))
+            };
+
 
             // Parámetros para Energia Renovable
             var energiaRenovable = new[]
             {
-            new SqlParameter("@nombre", entidadDto.EnergiaRenovable.Nombre)
-        };
+                new NpgsqlParameter("nombre", entidadDto.EnergiaRenovable.Nombre)
+            };
 
-            // Parámetros para planta de produccion
+            // Parámetros para planta de producción
             var plantaProduccion = new[]
             {
-            new SqlParameter("@ubicacion", entidadDto.PlantaProduccion.Ubicacion),
-            new SqlParameter("@eficacia", SqlDbType.Decimal)
-        {
-            Value = Math.Round(entidadDto.PlantaProduccion.Eficiencia,2),
-            Precision = 5,
-            Scale = 2
-        },
-        new SqlParameter("@capacidadinstalada", SqlDbType.Decimal)
-        {
-                Value = Math.Round(entidadDto.PlantaProduccion.CapacidadInstalada,2),
-                Precision = 5,
-                Scale = 2
-        },
-            new SqlParameter("@fechacreacion", entidadDto.PlantaProduccion.FechaCreacion)
-        };
+                new NpgsqlParameter("ubicacion", entidadDto.PlantaProduccion.Ubicacion),
+                new NpgsqlParameter("eficacia", Math.Round(entidadDto.PlantaProduccion.Eficiencia, 2)),
+                new NpgsqlParameter("capacidadinstalada",
+                    Math.Round(entidadDto.PlantaProduccion.CapacidadInstalada, 2)),
+                new NpgsqlParameter("fechacreacion", entidadDto.PlantaProduccion.FechaCreacion)
+            };
 
+            // Parámetros para País
             var pais = new[]
             {
-            new SqlParameter("@nombrepais", entidadDto.Pais.Nombre),
-            new SqlParameter("@nivelcovertura", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.Pais.NivelCovertura, 2),
-                Precision = 5,
-                Scale = 2
-            },
-            new SqlParameter("@poblacion", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.Pais.Poblacion,2),
-                Precision = 5,
-                Scale = 2
-            },
-            new SqlParameter("@energiaRequerida", SqlDbType.Decimal)
-            {
-                Value = Math.Round(entidadDto.Pais.EnergiaRequerida),
-                Precision = 5,
-                Scale = 2
-            }
-        };
+                new NpgsqlParameter("nombrepais", entidadDto.Pais.Nombre),
+                new NpgsqlParameter("nivelcovertura", Math.Round(entidadDto.Pais.NivelCovertura, 2)),
+                new NpgsqlParameter("poblacion", Math.Round(entidadDto.Pais.Poblacion, 2)),
+                new NpgsqlParameter("energiarequerida", Math.Round(entidadDto.Pais.EnergiaRequerida, 2))
+            };
+
             // Ejecuta el procedimiento almacenado
-            await _context.Database.ExecuteSqlRawAsync(
-                  "EXEC Insertar_energia_solar @radiacionsolar, " +
-                  " @areapaneles, @anguloinclinacion, @eficienciapaneles, " +
-                  " @nombre, @ubicacion, @capacidadinstalada, @eficacia, @fechacreacion, " +
-                  " @nombrepais, @energiaRequerida, @nivelcovertura, @poblacion",
-                  [.. energiaSolar, .. energiaRenovable, .. plantaProduccion, .. pais]);
-        }
-
-        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaSolarDTO entidadDto, int id)
-        {
-            var energiaSolar = new[]
-            {
-                new SqlParameter("@idEnergiaSolar", id),
-                new SqlParameter("@radiacionsolar", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.EnergiaSolar.RadiacionSolar,2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@anguloinclinacion", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.EnergiaSolar.AnguloInclinacion,2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@eficienciapaneles", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.EnergiaSolar.EficienciaPaneles,2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@areapaneles", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.EnergiaSolar.AreaPaneles,2),
-                    Precision = 5,
-                    Scale = 2
-                }
-            };
-
-            // Parámetros para Energia Renovable
-            var energiaRenovable = new[]
-            {
-                new SqlParameter("@nombre", entidadDto.EnergiaRenovable.Nombre)
-            };
-
-            // Parámetros para planta de produccion
-            var plantaProduccion = new[]
-            {
-                new SqlParameter("@ubicacion", entidadDto.PlantaProduccion.Ubicacion),
-                new SqlParameter("@eficacia", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.PlantaProduccion.Eficiencia,2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@capacidadinstalada", SqlDbType.Decimal)
-                {
-                        Value = Math.Round(entidadDto.PlantaProduccion.CapacidadInstalada,2),
-                        Precision = 5,
-                        Scale = 2
-                },
-                new SqlParameter("@fechacreacion", entidadDto.PlantaProduccion.FechaCreacion)
-            };
-
-            var pais = new[]
-            {
-                new SqlParameter("@nombrepais", entidadDto.Pais.Nombre),
-                new SqlParameter("@nivelcovertura", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.Pais.NivelCovertura, 2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@poblacion", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.Pais.Poblacion,2),
-                    Precision = 5,
-                    Scale = 2
-                },
-                new SqlParameter("@energiaRequerida", SqlDbType.Decimal)
-                {
-                    Value = Math.Round(entidadDto.Pais.EnergiaRequerida),
-                    Precision = 5,
-                    Scale = 2
-                }
-            };
-            // Ejecuta el procedimiento almacenado
-            await _context.Database.ExecuteSqlRawAsync(
-                  "EXEC actualizar_energia_solar @idEnergiaSolar, @radiacionsolar, " +
-                  " @areapaneles, @anguloinclinacion, @eficienciapaneles, " +
-                  " @nombre, @ubicacion, @capacidadinstalada, @eficacia, @fechacreacion, " +
-                  " @nombrepais, @energiaRequerida, @nivelcovertura, @poblacion",
-                  [.. energiaSolar, .. energiaRenovable, .. plantaProduccion, .. pais]);
+            await context.Database.ExecuteSqlRawAsync(
+                "CALL actualizar_energia_solar (@idEnergiaSolar, @radiacionsolar, " +
+                " @areapaneles, @anguloinclinacion, @eficienciapaneles, " +
+                " @nombre, @ubicacion, @capacidadinstalada, @eficacia, @fechacreacion, " +
+                " @nombrepais, @energiaRequerida, @nivelcovertura, @poblacion)",
+                [.. energiaSolar, .. energiaRenovable, .. plantaProduccion, .. pais]);
         }
 
         public async Task EliminarEntidadConRelacionesAsync(int id)
         {
             var energiaSolar = new[]
             {
-                new SqlParameter("@idEnegiaSolar", id)
+                new NpgsqlParameter("@idEnergiaSolar", id)
             };
-            await _context.Database.ExecuteSqlRawAsync(
-                  "EXEC borrar_energia_solar @idEnegiaSolar"
-                  , energiaSolar);
+            await context.Database.ExecuteSqlRawAsync(
+                "CALL borrar_energia_solar(@idEnergiaSolar)", [.. energiaSolar]);
         }
     }
 }

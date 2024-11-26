@@ -9,6 +9,6 @@ namespace EnergiasRenovables.Model.Entities
         public decimal AnguloInclinacion { get; set; }
         public decimal EficienciaPaneles { get; set; }
 
-        public virtual EnergiaRenovable EnergiaRenovable { get; set; }
+        public virtual EnergiaRenovable? EnergiaRenovable { get; set; }
     }
 }

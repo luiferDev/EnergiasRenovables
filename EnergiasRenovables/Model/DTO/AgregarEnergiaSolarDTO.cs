@@ -9,6 +9,7 @@ namespace EnergiasRenovables.Model.DTO
         public decimal AreaPaneles { get; set; }
         public decimal AnguloInclinacion { get; set; }
         public decimal EficienciaPaneles { get; set; }
+        
         public decimal ProduccionEnergetica { get; set; }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EnergiasRenovables")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c20156557efe956926f87fbb03292cbbf1856228")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c1688e6dcf7c6301849fd13a2cbf98294095e517")]
 [assembly: System.Reflection.AssemblyProductAttribute("EnergiasRenovables")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EnergiasRenovables")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
