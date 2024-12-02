@@ -2,12 +2,12 @@
 
 namespace EnergiasRenovables.Model.Strategy
 {
-    public interface ICalculoStrategy<T, U>
+    public interface ICalculoStrategy<T, in TU>
     {
         List<T> ObtenerEnergia();
         decimal CalcularProduccion();
-        Task AgregarEntidadConRelacionesAsync(U entidadDto);
-        Task ActualizarEntidadConRelacionesAsync(U entidadDto, int id);
+        Task AgregarEntidadConRelacionesAsync(TU entidadDto);
+        Task ActualizarEntidadConRelacionesAsync(TU entidadDto, int id);
         Task EliminarEntidadConRelacionesAsync(int id);
     }
 }
