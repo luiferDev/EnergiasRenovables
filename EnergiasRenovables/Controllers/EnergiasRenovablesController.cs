@@ -1,5 +1,6 @@
 ﻿using EnergiasRenovables.Data;
 using EnergiasRenovables.Model.DTO;
+using EnergiasRenovables.Model.DTO.Biomasa;
 using EnergiasRenovables.Model.Strategy.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,14 @@ namespace EnergiasRenovables.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EnergiasRenovablesController(ApplicationDbContext dbContext) : ControllerBase
+    public class EnergiasRenovablesController(
+        ApplicationDbContext dbContext,
+        EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO> solarContext,
+        EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO?> eolicaContext,
+        EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO> biomasaContext,
+        EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO> hidroContext,
+        EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO> geoContext
+        ) : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
@@ -20,10 +28,7 @@ namespace EnergiasRenovables.Controllers
                 switch (tipoEnergia.ToLower())
                 {
                     case "solar":
-                        var solarContext = HttpContext.RequestServices
-                            .GetRequiredService<EnergiaRenovableContext
-                            <ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>>();
-
+                        
                         var energiaSolar = solarContext.ObtenerEnergia();
                         var produccionSolar = solarContext.CalcularEnergia();
 
@@ -35,9 +40,6 @@ namespace EnergiasRenovables.Controllers
                         return Ok(resultadoSolar);
 
                     case "eolica":
-                        var eolicaContext = HttpContext.RequestServices
-                            .GetRequiredService<EnergiaRenovableContext
-                            <ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>>();
 
                         var energiaEolica = eolicaContext.ObtenerEnergia();
                         var produccionEolica = eolicaContext.CalcularEnergia();
@@ -48,6 +50,44 @@ namespace EnergiasRenovables.Controllers
                             ProduccionTotal = produccionEolica
                         };
                         return Ok(resultadoEolica);
+                    
+                    case "biomasa":
+
+                        var biomasa = biomasaContext.ObtenerEnergia();
+                        var produccionBiomasa = biomasaContext.CalcularEnergia();
+
+                        var resultadoBiomasa = new
+                        {
+                            Biomasa = biomasa,
+                            ProduccionTotal = produccionBiomasa
+                        };
+                        return Ok(resultadoBiomasa);
+
+                    case "hidroelectrica":
+
+                        var energiaHidroelectrica = hidroContext.ObtenerEnergia();
+                        var produccionHidroelectrica = hidroContext.CalcularEnergia();
+
+                        var resultadoHidro = new
+                        {
+                            hidroelectrica = energiaHidroelectrica,
+                            produccionTotal = produccionHidroelectrica
+                        };
+
+                        return Ok(resultadoHidro);
+                    
+                    case "geotermica":
+
+                        var energiaGeotermica = geoContext.ObtenerEnergia();
+                        var produccionGeotermica = geoContext.CalcularEnergia();
+
+                        var resultadoGeo = new
+                        {
+                            geotermica = energiaGeotermica,
+                            produccionTotal = produccionGeotermica
+                        };
+
+                        return Ok(resultadoGeo);
 
                     default:
                         return BadRequest("Tipo de energía no válido");
@@ -73,32 +113,29 @@ namespace EnergiasRenovables.Controllers
             switch (tipoEnergia.ToLower())
             {
                 case "solar":
-                    if (insertarEnergia.EnergiaSolar == null)
-                    {
-                        return BadRequest("Los datos de energía solar son requeridos.");
-                    }
-
-                    var solarContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>>();
 
                     await solarContext.InsertarEnergiaAsync(insertarEnergia.EnergiaSolar);
                     return Ok("Energía solar agregada correctamente.");
 
                 case "eolica":
-                    if (insertarEnergia.EnergiaEolica == null)
-                    {
-                        return BadRequest("Los datos de energía eólica son requeridos.");
-                    }
-
-                    var eolicaContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>>();
 
                     await eolicaContext.InsertarEnergiaAsync(insertarEnergia.EnergiaEolica);
                     return Ok("Energía eólica agregada correctamente.");
+                
+                case "biomasa" :
+
+                    await biomasaContext.InsertarEnergiaAsync(insertarEnergia.Biomasa);
+                    return Ok("Biomasa agregada correctamente");
+                
+                case "hidrelectrica":
+
+                    await hidroContext.InsertarEnergiaAsync(insertarEnergia.Hidroelectrica);
+                    return Ok("Energía Hidroelectrica agregada correctamente");
+                
+                case "geotermica":
+
+                    await geoContext.InsertarEnergiaAsync(insertarEnergia.Geotermica);
+                    return Ok("Energia Geotérmica agregada correctamente");
 
                 default:
                     return BadRequest("Tipo de energía no válido.");
@@ -118,33 +155,30 @@ namespace EnergiasRenovables.Controllers
             switch (tipoEnergia.ToLower())
             {
                 case "solar":
-                    if (insertarEnergia.EnergiaSolar == null)
-                    {
-                        return BadRequest("Los datos de energía solar son requeridos.");
-                    }
-
-                    var solarContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>>();
-
+                    
                     await solarContext.ActualizarEnergiaAsync(insertarEnergia.EnergiaSolar, id);
                     return Ok("Energía solar actualizada correctamente.");
 
                 case "eolica":
-                    if (insertarEnergia.EnergiaEolica == null)
-                    {
-                        return BadRequest("Los datos de energía eólica son requeridos.");
-                    }
-
-                    var eolicaContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>>();
 
                     await eolicaContext.ActualizarEnergiaAsync(insertarEnergia.EnergiaEolica, id);
                     return Ok("Energía eólica actualizada correctamente.");
+                
+                case "biomasa":
 
+                    await biomasaContext.ActualizarEnergiaAsync(insertarEnergia.Biomasa, id);
+                    return Ok("Energia biomasa actualizada correctamente");
+                    
+                case "hidroelectrica":
+
+                    await hidroContext.ActualizarEnergiaAsync(insertarEnergia.Hidroelectrica, id);
+                    return Ok("Energia Hidroeléctrica actualizada correctamente");
+                
+                case "geotermica":
+
+                    await geoContext.ActualizarEnergiaAsync(insertarEnergia.Geotermica, id);
+                    return Ok("Energia Geotérmica actualizada correctamente");
+                
                 default:
                     return BadRequest("Tipo de energía no válido.");
             }
@@ -162,22 +196,29 @@ namespace EnergiasRenovables.Controllers
             switch (tipoEnergia.ToLower())
             {
                 case "solar":
-                    var solarContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>>();
 
                     await solarContext.EliminarEnergiaAsync(id);
                     return Ok("Energía solar eliminada correctamente.");
 
                 case "eolica":
-                    var eolicaContext = HttpContext.RequestServices
-                        .GetRequiredService
-                        <EnergiaRenovableContext
-                        <ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>>();
 
                     await eolicaContext.EliminarEnergiaAsync(id);
                     return Ok("Energía eólica eliminada correctamente.");
+                
+                case "biomasa":
+
+                    await biomasaContext.EliminarEnergiaAsync(id);
+                    return Ok("Energia biomasa eliminada correcamente");
+                
+                case "hidroelectrica":
+
+                    await hidroContext.EliminarEnergiaAsync(id);
+                    return Ok("Energia Hidroelectrica eliminada correctamente");
+                
+                case "geotermica" :
+
+                    await geoContext.EliminarEnergiaAsync(id);
+                    return Ok("Energia Geotermica eliminada correctamente");
 
                 default:
                     return BadRequest("Tipo de energía no válido.");
