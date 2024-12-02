@@ -1,5 +1,6 @@
 using EnergiasRenovables.Data;
 using EnergiasRenovables.Model.DTO;
+using EnergiasRenovables.Model.DTO.Biomasa;
 using EnergiasRenovables.Model.Strategy.ConcreteStrategy;
 using EnergiasRenovables.Model.Strategy.Context;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,37 @@ builder.Services
     var strategy = provider.GetRequiredService<EnergiaEolicaConcrete>();
     return new EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>(strategy);
 });
+
+builder.Services
+    .AddScoped<EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO>>(provider =>
+    {
+        var strategy = provider.GetRequiredService<BiomasaConcrete>();
+        return new EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO>(strategy);
+    });
+
+builder.Services
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO>>(provider =>
+    {
+        var strategy = provider.GetRequiredService<EnergiaHidroelectricaConcrete>();
+        return new EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO>(strategy);
+    });
+
+builder.Services
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO>>(provider =>
+    {
+        var strategy = provider.GetRequiredService<EnergiaGeotermicaConcrete>();
+        return new EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO>(strategy);
+    });
 // Add Energia Solar
 builder.Services.AddScoped<EnergiaSolarConcrete>();
 // Add Energia Renovable Context for Energia Solar
 builder.Services.AddScoped<EnergiaEolicaConcrete>();
+// Add Energia Renovable Context for Biomasa
+builder.Services.AddScoped<BiomasaConcrete>();
 
+builder.Services.AddScoped<EnergiaHidroelectricaConcrete>();
 
+builder.Services.AddScoped<EnergiaGeotermicaConcrete>();
 
 var app = builder.Build();
 
