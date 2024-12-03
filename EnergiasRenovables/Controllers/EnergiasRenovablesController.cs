@@ -2,6 +2,7 @@
 using EnergiasRenovables.Model.DTO;
 using EnergiasRenovables.Model.DTO.Biomasa;
 using EnergiasRenovables.Model.Strategy.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace EnergiasRenovables.Controllers
         private readonly ApplicationDbContext _dbContext = dbContext;
 
         [HttpGet]
+        [Authorize]
         public IActionResult ObtenerEnergiaRenovable([FromQuery] string tipoEnergia)
         {
             try
@@ -101,6 +103,7 @@ namespace EnergiasRenovables.Controllers
 
 
         [HttpPost("crear")]
+        [Authorize]
         public async Task<IActionResult> CrearEnergiaRenovable(
                 [FromQuery] string tipoEnergia,
                 [FromBody] InsertarEnergiaDTO insertarEnergia)
@@ -143,6 +146,7 @@ namespace EnergiasRenovables.Controllers
         }
 
         [HttpPut("actualizar")]
+        [Authorize]
         public async Task<IActionResult> ActualizarEnergiaRenovable(
             [FromQuery] string tipoEnergia, int id,
             [FromBody] InsertarEnergiaDTO insertarEnergia)
@@ -185,6 +189,7 @@ namespace EnergiasRenovables.Controllers
         }
 
         [HttpDelete("eliminar")]
+        [Authorize]
         public async Task<IActionResult> EliminarEnergiaRenovable(
             [FromQuery] string tipoEnergia, int id)
         {
