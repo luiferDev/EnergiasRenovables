@@ -11,11 +11,11 @@ namespace EnergiasRenovables.Controllers
     [ApiController]
     public class EnergiasRenovablesController(
         ApplicationDbContext dbContext,
-        EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO> solarContext,
+        EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO?> solarContext,
         EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO?> eolicaContext,
-        EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO> biomasaContext,
-        EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO> hidroContext,
-        EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO> geoContext
+        EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO?> biomasaContext,
+        EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO?> hidroContext,
+        EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO?> geoContext
         ) : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext = dbContext;

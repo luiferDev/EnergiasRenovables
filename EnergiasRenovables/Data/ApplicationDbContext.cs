@@ -6,10 +6,8 @@ using System.Data;
 
 namespace EnergiasRenovables.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
-
         public required DbSet<EnergiaSolar> EnergiaSolars { get; set; }
         public required DbSet<EnergiaRenovable> EnergiasRenovables { get; set; }
         public required DbSet<PlantaProduccion> PlantaProduccions { get; set; }
@@ -19,6 +17,7 @@ namespace EnergiasRenovables.Data
         public required DbSet<EnergiaGeotermica> EnergiaGeotermicas { get; set; }
         public required DbSet<EnergiaEolica> EnergiaEolicas { get; set; }
         public required DbSet<Pais> Paises { get; set; }
+        public required DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -84,8 +83,7 @@ namespace EnergiasRenovables.Data
                 .HasMany(p => p.PlantaProduccion)
                 .WithOne(e => e.Pais)
                 .HasForeignKey(e => e.Id);
-
-
+            
             base.OnModelCreating(modelBuilder);
         }
     }

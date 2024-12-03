@@ -216,6 +216,32 @@ namespace EnergiasRenovables.Migrations
                     b.ToTable("TipoEnergias");
                 });
 
+            modelBuilder.Entity("EnergiasRenovables.Model.Entities.Usuario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("EnergiasRenovables.Model.Entities.Biomasa", b =>
                 {
                     b.HasOne("EnergiasRenovables.Model.Entities.EnergiaRenovable", "EnergiaRenovable")
