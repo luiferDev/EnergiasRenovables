@@ -31,7 +31,7 @@ public class AuthService(UserRepository userRepository, IConfiguration configura
     {
         var user = await userRepository.GetByUsernameAsync(username);
         if (user == null || !PasswordHasher.VerifyPassword(password, user.Password))
-            return null; // Credenciales inválidas.
+            return "Credenciales inválidas"; // Credenciales inválidas.
 
         // Aquí puedes generar un token JWT (ver paso 6).
         return GenerateJwtToken(user);
@@ -39,25 +39,23 @@ public class AuthService(UserRepository userRepository, IConfiguration configura
 
     public string GenerateJwtToken(Usuario user)
     {
-        var claims = new[]
+        var jwtSettings = configuration.GetSection("Jwt");
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var byteKey = Encoding.UTF8.GetBytes(jwtSettings["Key"] ?? throw new InvalidOperationException());
+        var tokenDes = new SecurityTokenDescriptor
         {
-            new Claim(JwtRegisteredClaimNames.Sub, ""),//request.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, "User") // Agregar roles si es necesario.
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.UserName ?? throw new InvalidOperationException()), 
+                new Claim(ClaimTypes.Role, user.Role),
+            }), 
+            Expires = DateTime.UtcNow.AddDays(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(byteKey), 
+                SecurityAlgorithms.HmacSha256Signature)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] 
-                                                                  ?? throw new InvalidOperationException()));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-            issuer: configuration["Jwt:Issuer"],
-            audience: configuration["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddHours(1),
-            signingCredentials: creds);
-        
-        //return token = new JwtSecurityTokenHandler().WriteToken(token)
-        return "hola";
+        var token = tokenHandler.CreateToken(tokenDes);
+        return tokenHandler.WriteToken(token);
     }
 }
