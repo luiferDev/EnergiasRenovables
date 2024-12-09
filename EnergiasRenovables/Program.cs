@@ -6,11 +6,13 @@ using EnergiasRenovables.Model.DTO.Biomasa;
 using EnergiasRenovables.Model.Strategy.ConcreteStrategy;
 using EnergiasRenovables.Model.Strategy.Context;
 using EnergiasRenovables.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// add fluent validation to program.cs
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddFluentValidationAutoValidation();
 
 // Configurar servicios de Swagger
 builder.Services.AddSwaggerGen(c =>
@@ -104,38 +109,38 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add Energia Renovable Context for Energia Solar
 builder.Services
-    .AddScoped<EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>>(provider =>
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiSolarDto, InsertarEnergiaSolarDto>>(provider =>
 {
     var strategy = provider.GetRequiredService<EnergiaSolarConcrete>();
-    return new EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO>(strategy);
+    return new EnergiaRenovableContext<ObtenerEnergiSolarDto, InsertarEnergiaSolarDto>(strategy);
 });
 // Add Energia Renovable Context for Energia Eolica
 builder.Services
-    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>>(provider =>
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaEolicaDto, InsertarEnergiaEolicaDto>>(provider =>
 {
     var strategy = provider.GetRequiredService<EnergiaEolicaConcrete>();
-    return new EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO>(strategy);
+    return new EnergiaRenovableContext<ObtenerEnergiaEolicaDto, InsertarEnergiaEolicaDto>(strategy);
 });
 
 builder.Services
-    .AddScoped<EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO>>(provider =>
+    .AddScoped<EnergiaRenovableContext<ObtenerBiomasaDto, InsertarBiomasaDto>>(provider =>
     {
         var strategy = provider.GetRequiredService<BiomasaConcrete>();
-        return new EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO>(strategy);
+        return new EnergiaRenovableContext<ObtenerBiomasaDto, InsertarBiomasaDto>(strategy);
     });
 
 builder.Services
-    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO>>(provider =>
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDto, InsertarEnergiaHidroelectricaDto>>(provider =>
     {
         var strategy = provider.GetRequiredService<EnergiaHidroelectricaConcrete>();
-        return new EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO>(strategy);
+        return new EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDto, InsertarEnergiaHidroelectricaDto>(strategy);
     });
 
 builder.Services
-    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO>>(provider =>
+    .AddScoped<EnergiaRenovableContext<ObtenerEnergiaGeotermicaDto, InsertarEnergiaGeotermicaDto>>(provider =>
     {
         var strategy = provider.GetRequiredService<EnergiaGeotermicaConcrete>();
-        return new EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO>(strategy);
+        return new EnergiaRenovableContext<ObtenerEnergiaGeotermicaDto, InsertarEnergiaGeotermicaDto>(strategy);
     });
 // Add Energia Solar
 builder.Services.AddScoped<EnergiaSolarConcrete>();
