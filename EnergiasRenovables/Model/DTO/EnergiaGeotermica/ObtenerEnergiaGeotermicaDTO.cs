@@ -1,6 +1,6 @@
 namespace EnergiasRenovables.Model.DTO.Biomasa;
 
-public class ObtenerEnergiaGeotermicaDTO
+public class ObtenerEnergiaGeotermicaDto
 {
     public int Id { get; set; }
     public decimal Caudal { get; set; }

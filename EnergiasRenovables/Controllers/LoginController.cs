@@ -9,7 +9,7 @@ namespace EnergiasRenovables.Controllers;
 public class LoginController(AuthService authService): ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> LoginUsuario([FromBody] UsuarioLoginDTO login)
+    public async Task<IActionResult> LoginUsuario([FromBody] UsuarioLoginDto login)
     {
         var token = await authService.LoginAsync(login.UserName, login.Password);
         if (token == null)

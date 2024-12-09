@@ -2,12 +2,12 @@
 
 namespace EnergiasRenovables.Model.DTO
 {
-    public class InsertarEnergiaDTO
+    public class InsertarEnergiaDto
     {
-        public InsertarEnergiaSolarDTO? EnergiaSolar { get; set; }
-        public InsertarEnergiaEolicaDTO? EnergiaEolica { get; set; }
-        public InsertarBiomasaDTO? Biomasa { get; set; }
-        public InsertarEnergiaHidroelectricaDTO? Hidroelectrica { get; set; }
-        public InsertarEnergiaGeotermicaDTO? Geotermica { get; set; }
+        public InsertarEnergiaSolarDto? EnergiaSolar { get; set; }
+        public InsertarEnergiaEolicaDto? EnergiaEolica { get; set; }
+        public InsertarBiomasaDto? Biomasa { get; set; }
+        public InsertarEnergiaHidroelectricaDto? Hidroelectrica { get; set; }
+        public InsertarEnergiaGeotermicaDto? Geotermica { get; set; }
     }
 }

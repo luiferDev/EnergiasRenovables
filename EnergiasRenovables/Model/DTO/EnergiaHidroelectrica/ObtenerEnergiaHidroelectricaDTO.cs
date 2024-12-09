@@ -1,6 +1,6 @@
 namespace EnergiasRenovables.Model.DTO.Biomasa;
 
-public class ObtenerEnergiaHidroelectricaDTO
+public class ObtenerEnergiaHidroelectricaDto
 {
     public int Id { get; set; }
     public decimal Salto { get; set; }

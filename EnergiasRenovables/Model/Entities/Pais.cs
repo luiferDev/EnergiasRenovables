@@ -2,7 +2,7 @@
 {
     public class Pais
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public required string Nombre { get; set; }
         public decimal EnergiaRequerida { get; set; }
         public decimal NivelCovertura { get; set; }

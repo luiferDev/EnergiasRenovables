@@ -1,6 +1,6 @@
 namespace EnergiasRenovables.Model.DTO.Biomasa;
 
-public class AgregarBiomasaDTO
+public class AgregarBiomasaDto
 {
     public int Id { get; set; }
     public required string Origen { get; set; }

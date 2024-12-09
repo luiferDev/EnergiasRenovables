@@ -1,6 +1,6 @@
 ﻿namespace EnergiasRenovables.Model.DTO
 {
-    public class AgregarEnergiaRenovableSolarDTO
+    public class AgregarEnergiaRenovableSolarDto
     {
         public required string Nombre { get; set; }
     }

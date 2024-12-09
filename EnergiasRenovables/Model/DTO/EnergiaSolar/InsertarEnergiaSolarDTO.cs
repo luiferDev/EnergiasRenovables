@@ -1,10 +1,10 @@
 ﻿namespace EnergiasRenovables.Model.DTO
 {
-    public class InsertarEnergiaSolarDTO
+    public class InsertarEnergiaSolarDto
     {
-        public required AgregarEnergiaSolarDTO EnergiaSolar { get; set; }
-        public required AgregarEnergiaRenovableSolarDTO EnergiaRenovable { get; set; }
-        public required AgregarPlantaProduccionDTO PlantaProduccion { get; set; }
-        public required AgregarPaisDTO Pais { get; set; }
+        public required AgregarEnergiaSolarDto EnergiaSolar { get; set; }
+        public required AgregarEnergiaRenovableSolarDto EnergiaRenovable { get; set; }
+        public required AgregarPlantaProduccionDto PlantaProduccion { get; set; }
+        public required AgregarPaisDto Pais { get; set; }
     }
 }

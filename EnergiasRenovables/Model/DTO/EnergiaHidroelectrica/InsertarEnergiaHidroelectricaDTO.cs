@@ -1,9 +1,9 @@
 namespace EnergiasRenovables.Model.DTO.Biomasa;
 
-public class InsertarEnergiaHidroelectricaDTO
+public class InsertarEnergiaHidroelectricaDto
 {
-    public required AgregarEnergiaHidroelectricaDTO EnergiaHidroelectrica { get; set; }
-    public required AgregarEnergiaRenovableSolarDTO EnergiaRenovable { get; set; }
-    public required AgregarPlantaProduccionDTO PlantaProduccion { get; set; }
-    public required AgregarPaisDTO Pais { get; set; }
+    public required AgregarEnergiaHidroelectricaDto EnergiaHidroelectrica { get; set; }
+    public required AgregarEnergiaRenovableSolarDto EnergiaRenovable { get; set; }
+    public required AgregarPlantaProduccionDto PlantaProduccion { get; set; }
+    public required AgregarPaisDto Pais { get; set; }
 }

@@ -5,16 +5,16 @@ using Npgsql;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy;
 
-public class EnergiaGeotermicaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO>
+public class EnergiaGeotermicaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerEnergiaGeotermicaDto, InsertarEnergiaGeotermicaDto>
 {
-    public List<ObtenerEnergiaGeotermicaDTO> ObtenerEnergia()
+    public List<ObtenerEnergiaGeotermicaDto> ObtenerEnergia()
     {
         var energiaGeotermica = from es in context.EnergiaGeotermicas
             join er in context.EnergiasRenovables on es.Id equals er.Id
             join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
             join pp in context.PlantaProduccions on es.Id equals pp.Id
-            join ps in context.Paises on es.Id equals ps.id
-            select new ObtenerEnergiaGeotermicaDTO()
+            join ps in context.Paises on es.Id equals ps.Id
+            select new ObtenerEnergiaGeotermicaDto()
             {
                 Id = es.Id,
                 Caudal = es.Caudal,
@@ -55,7 +55,7 @@ public class EnergiaGeotermicaConcrete(ApplicationDbContext context): ICalculoSt
         return resultados.Sum(x => x.TotalCalculo);
     }
 
-    public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaGeotermicaDTO entidadDto)
+    public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaGeotermicaDto entidadDto)
     {
         if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));
@@ -97,7 +97,7 @@ public class EnergiaGeotermicaConcrete(ApplicationDbContext context): ICalculoSt
             [.. enegiaGeotermicaParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
     }
 
-    public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaGeotermicaDTO entidadDto, int id)
+    public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaGeotermicaDto entidadDto, int id)
     {
         if (entidadDto == null)
             throw new ArgumentNullException(nameof(entidadDto));

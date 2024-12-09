@@ -2,7 +2,7 @@
 
 namespace EnergiasRenovables.Model.DTO
 {
-    public class AgregarPlantaProduccionDTO
+    public class AgregarPlantaProduccionDto
     {
         public required string Ubicacion { get; set; }
         public decimal CapacidadInstalada { get; set; }

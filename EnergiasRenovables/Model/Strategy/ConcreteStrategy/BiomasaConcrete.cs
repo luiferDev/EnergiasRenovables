@@ -5,16 +5,16 @@ using Npgsql;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy;
 
-public class BiomasaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerBiomasaDTO, InsertarBiomasaDTO>
+public class BiomasaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerBiomasaDto, InsertarBiomasaDto>
 {
-    public List<ObtenerBiomasaDTO> ObtenerEnergia()
+    public List<ObtenerBiomasaDto> ObtenerEnergia()
     {
         var biomasa = from es in context.Biomasa
             join er in context.EnergiasRenovables on es.Id equals er.Id
             join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
             join pp in context.PlantaProduccions on es.Id equals pp.Id
-            join ps in context.Paises on es.Id equals ps.id
-            select new ObtenerBiomasaDTO()
+            join ps in context.Paises on es.Id equals ps.Id
+            select new ObtenerBiomasaDto()
             {
                 Id = es.Id,
                 Origen = es.Origen,
@@ -55,7 +55,7 @@ public class BiomasaConcrete(ApplicationDbContext context): ICalculoStrategy<Obt
         return resultados.Sum(x => x.TotalCalculo);
     }
 
-    public async Task AgregarEntidadConRelacionesAsync(InsertarBiomasaDTO entidadDto)
+    public async Task AgregarEntidadConRelacionesAsync(InsertarBiomasaDto entidadDto)
     {
         if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));
@@ -98,7 +98,7 @@ public class BiomasaConcrete(ApplicationDbContext context): ICalculoStrategy<Obt
             [.. biomasaParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
     }
 
-    public async Task ActualizarEntidadConRelacionesAsync(InsertarBiomasaDTO entidadDto, int id)
+    public async Task ActualizarEntidadConRelacionesAsync(InsertarBiomasaDto entidadDto, int id)
     {
         var biomasaParams = new[]
             {

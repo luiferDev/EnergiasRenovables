@@ -1,6 +1,6 @@
 ﻿namespace EnergiasRenovables.Model.DTO
 {
-    public class ObtenerEnergiaEolicaDTO
+    public class ObtenerEnergiaEolicaDto
     {
         public int Id { get; set; }
         public int NumeroTurbinas { get; set; }

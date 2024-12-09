@@ -12,11 +12,11 @@ namespace EnergiasRenovables.Controllers
     [ApiController]
     public class EnergiasRenovablesController(
         ApplicationDbContext dbContext,
-        EnergiaRenovableContext<ObtenerEnergiSolarDTO, InsertarEnergiaSolarDTO?> solarContext,
-        EnergiaRenovableContext<ObtenerEnergiaEolicaDTO, InsertarEnergiaEolicaDTO?> eolicaContext,
-        EnergiaRenovableContext<ObtenerBiomasaDTO, InsertarBiomasaDTO?> biomasaContext,
-        EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO?> hidroContext,
-        EnergiaRenovableContext<ObtenerEnergiaGeotermicaDTO, InsertarEnergiaGeotermicaDTO?> geoContext
+        EnergiaRenovableContext<ObtenerEnergiSolarDto, InsertarEnergiaSolarDto?> solarContext,
+        EnergiaRenovableContext<ObtenerEnergiaEolicaDto, InsertarEnergiaEolicaDto?> eolicaContext,
+        EnergiaRenovableContext<ObtenerBiomasaDto, InsertarBiomasaDto?> biomasaContext,
+        EnergiaRenovableContext<ObtenerEnergiaHidroelectricaDto, InsertarEnergiaHidroelectricaDto?> hidroContext,
+        EnergiaRenovableContext<ObtenerEnergiaGeotermicaDto, InsertarEnergiaGeotermicaDto?> geoContext
         ) : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
@@ -106,7 +106,7 @@ namespace EnergiasRenovables.Controllers
         [Authorize]
         public async Task<IActionResult> CrearEnergiaRenovable(
                 [FromQuery] string tipoEnergia,
-                [FromBody] InsertarEnergiaDTO insertarEnergia)
+                [FromBody] InsertarEnergiaDto insertarEnergia)
         {
             if (string.IsNullOrWhiteSpace(tipoEnergia))
             {
@@ -149,7 +149,7 @@ namespace EnergiasRenovables.Controllers
         [Authorize]
         public async Task<IActionResult> ActualizarEnergiaRenovable(
             [FromQuery] string tipoEnergia, int id,
-            [FromBody] InsertarEnergiaDTO insertarEnergia)
+            [FromBody] InsertarEnergiaDto insertarEnergia)
         {
             if (string.IsNullOrWhiteSpace(tipoEnergia))
             {

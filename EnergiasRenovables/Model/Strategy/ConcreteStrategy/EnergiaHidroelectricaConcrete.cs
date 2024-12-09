@@ -5,16 +5,16 @@ using Npgsql;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy;
 
-public class EnergiaHidroelectricaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerEnergiaHidroelectricaDTO, InsertarEnergiaHidroelectricaDTO>
+public class EnergiaHidroelectricaConcrete(ApplicationDbContext context): ICalculoStrategy<ObtenerEnergiaHidroelectricaDto, InsertarEnergiaHidroelectricaDto>
 {
-    public List<ObtenerEnergiaHidroelectricaDTO> ObtenerEnergia()
+    public List<ObtenerEnergiaHidroelectricaDto> ObtenerEnergia()
     {
         var energiaHidroelectrica = from es in context.EnergiaHidroelectricas
             join er in context.EnergiasRenovables on es.Id equals er.Id
             join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
             join pp in context.PlantaProduccions on es.Id equals pp.Id
-            join ps in context.Paises on es.Id equals ps.id
-            select new ObtenerEnergiaHidroelectricaDTO()
+            join ps in context.Paises on es.Id equals ps.Id
+            select new ObtenerEnergiaHidroelectricaDto()
             {
                 Id = es.Id,
                 Caudal = es.Caudal,
@@ -55,7 +55,7 @@ public class EnergiaHidroelectricaConcrete(ApplicationDbContext context): ICalcu
         return resultados.Sum(x => x.TotalCalculo);
     }
 
-    public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaHidroelectricaDTO entidadDto)
+    public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaHidroelectricaDto entidadDto)
     {
         if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));
@@ -97,7 +97,7 @@ public class EnergiaHidroelectricaConcrete(ApplicationDbContext context): ICalcu
             [.. energiaHidroelectricaParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
     }
 
-    public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaHidroelectricaDTO entidadDto, int id)
+    public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaHidroelectricaDto entidadDto, int id)
     {
         if (entidadDto == null)
             throw new ArgumentNullException(nameof(entidadDto));

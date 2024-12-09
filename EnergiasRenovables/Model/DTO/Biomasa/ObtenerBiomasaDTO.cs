@@ -1,6 +1,6 @@
 namespace EnergiasRenovables.Model.DTO.Biomasa;
 
-public class ObtenerBiomasaDTO
+public class ObtenerBiomasaDto
 {
     public int Id { get; set; }
     public required string Origen { get; set; }

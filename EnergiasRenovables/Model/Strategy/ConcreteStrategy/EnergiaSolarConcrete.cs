@@ -6,17 +6,17 @@ using System.Data;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
 {
-    public class EnergiaSolarConcrete(ApplicationDbContext context) : ICalculoStrategy<ObtenerEnergiSolarDTO,
-        InsertarEnergiaSolarDTO>
+    public class EnergiaSolarConcrete(ApplicationDbContext context) : ICalculoStrategy<ObtenerEnergiSolarDto,
+        InsertarEnergiaSolarDto>
     {
-        public List<ObtenerEnergiSolarDTO> ObtenerEnergia()
+        public List<ObtenerEnergiSolarDto> ObtenerEnergia()
         {
             var energiaSolar = from es in context.EnergiaSolars
                 join er in context.EnergiasRenovables on es.Id equals er.Id
                 join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
                 join pp in context.PlantaProduccions on es.Id equals pp.Id
-                join ps in context.Paises on es.Id equals ps.id
-                select new ObtenerEnergiSolarDTO
+                join ps in context.Paises on es.Id equals ps.Id
+                select new ObtenerEnergiSolarDto
                 {
                     Id = es.Id,
                     RadiacionSolar = es.RadiacionSolar,
@@ -61,7 +61,7 @@ namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
             return resultados.Sum(x => x.TotalCalculo);
         }
 
-        public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaSolarDTO entidadDto)
+        public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaSolarDto entidadDto)
         {
             if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));
@@ -104,7 +104,7 @@ namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
                 [.. energiaSolarParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
         }
         
-        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaSolarDTO entidadDto, int id)
+        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaSolarDto entidadDto, int id)
         {
             // Parámetros para Energia Solar
             var energiaSolar = new[]

@@ -6,8 +6,8 @@ using Npgsql;
 
 namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
 {
-    public class EnergiaEolicaConcrete(ApplicationDbContext context) : ICalculoStrategy<ObtenerEnergiaEolicaDTO,
-        InsertarEnergiaEolicaDTO>
+    public class EnergiaEolicaConcrete(ApplicationDbContext context) : ICalculoStrategy<ObtenerEnergiaEolicaDto,
+        InsertarEnergiaEolicaDto>
     {
         public decimal CalcularProduccion()
         {
@@ -22,14 +22,14 @@ namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
             return resultados.Sum(x => x.TotalCalculo);
         }
 
-        public List<ObtenerEnergiaEolicaDTO> ObtenerEnergia()
+        public List<ObtenerEnergiaEolicaDto> ObtenerEnergia()
         {
             var energiaEolica = from es in context.EnergiaEolicas
                 join er in context.EnergiasRenovables on es.Id equals er.Id
                 join te in context.TipoEnergias on er.TipoEnergiaId equals te.Id
                 join pp in context.PlantaProduccions on es.Id equals pp.Id
-                join ps in context.Paises on es.Id equals ps.id
-                select new ObtenerEnergiaEolicaDTO
+                join ps in context.Paises on es.Id equals ps.Id
+                select new ObtenerEnergiaEolicaDto
                 {
                     Id = es.Id,
                     NumeroTurbinas = es.NumeroTurbinas,
@@ -52,7 +52,7 @@ namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
             return [.. energiaEolica];
         }
 
-        public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaEolicaDTO entidadDto)
+        public async Task AgregarEntidadConRelacionesAsync(InsertarEnergiaEolicaDto entidadDto)
         {
             if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));
@@ -95,7 +95,7 @@ namespace EnergiasRenovables.Model.Strategy.ConcreteStrategy
                 [.. energiaEolicaParams, .. energiaRenovableParams, .. plantaProduccionParams, .. paisParams]);
         }
 
-        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaEolicaDTO entidadDto, int id)
+        public async Task ActualizarEntidadConRelacionesAsync(InsertarEnergiaEolicaDto entidadDto, int id)
         {
             if (entidadDto == null)
                 throw new ArgumentNullException(nameof(entidadDto));

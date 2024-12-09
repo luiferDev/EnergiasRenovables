@@ -2,7 +2,7 @@
 
 namespace EnergiasRenovables.Model.DTO
 {
-    public class AgregarEnergiaSolarDTO
+    public class AgregarEnergiaSolarDto
     {
         public int Id { get; set; }
         public decimal RadiacionSolar { get; set; }
