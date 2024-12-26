@@ -22,7 +22,6 @@ namespace EnergiasRenovables.Controllers
         private readonly ApplicationDbContext _dbContext = dbContext;
 
         [HttpGet]
-        [Authorize]
         public IActionResult ObtenerEnergiaRenovable([FromQuery] string tipoEnergia)
         {
             try
