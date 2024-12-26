@@ -149,11 +149,11 @@ namespace EnergiasRenovables.Migrations
 
             modelBuilder.Entity("EnergiasRenovables.Model.Entities.Pais", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("EnergiaRequerida")
                         .HasColumnType("numeric");
@@ -171,7 +171,7 @@ namespace EnergiasRenovables.Migrations
                     b.Property<decimal>("Poblacion")
                         .HasColumnType("numeric");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Paises");
                 });
@@ -234,7 +234,6 @@ namespace EnergiasRenovables.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

@@ -160,3 +160,7 @@
 /home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/tr/Microsoft.Data.SqlClient.resources.dll
 /home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/runtimes/unix/lib/net9.0/Microsoft.Data.SqlClient.dll
 /home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/runtimes/win/lib/net9.0/Microsoft.Data.SqlClient.dll
+/home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/FluentValidation.dll
+/home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/FluentValidation.DependencyInjectionExtensions.dll
+/home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/SharpGrip.FluentValidation.AutoValidation.Mvc.dll
+/home/luifer991/RiderProjects/EnergiasRenovables/EnergiasRenovables/bin/Debug/net9.0/SharpGrip.FluentValidation.AutoValidation.Shared.dll
